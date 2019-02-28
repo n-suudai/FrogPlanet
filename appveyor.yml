@@ -28,7 +28,14 @@ install:
     git submodule update --init --quiet
 cache: C:\Python27
 build_script:
-- cmd: "if \"%PLATFORM%\"==\"x86\" (set GENERATE_TYPE=\"Visual Studio 15 2017\")\n    else if \"%PLATFORM%\"==\"x64\" (set GENERATE_TYPE=\"Visual Studio 15 2017 Win64\")\n    else if \"%PLATFORM%\"==\"ARM\" (set GENERATE_TYPE=\"Visual Studio 15 2017 ARM\")\n    \n    cmake -H. -Bb -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G %GENERATE_TYPE%\n    \n    cmake --build b --config %CONFIGURATION%"
+- cmd: >-
+    if "%PLATFORM%"=="x86" (set GENERATE_TYPE="Visual Studio 14 2015")
+    else if "%PLATFORM%"=="x64" (set GENERATE_TYPE="Visual Studio 14 2015 Win64")
+    else if "%PLATFORM%"=="ARM" (set GENERATE_TYPE="Visual Studio 14 2015 ARM")
+
+    cmake -H. -Bb -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G %GENERATE_TYPE%
+
+    cmake --build b --config %CONFIGURATION%
 test_script:
 - cmd: >-
     cd C:\FrogPlanet\b
