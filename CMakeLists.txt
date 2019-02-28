@@ -31,6 +31,15 @@ else()
     endif()
 endif()
 
+
+if(DEFINED ENV{FROG_PLANET_BUILD_CONFIG})
+    if($ENV{FROG_PLANET_BUILD_CONFIG} STREQUAL "COVERAGE")
+        message("Build with coverage")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage")
+    endif()
+endif()
+
+
 # target_sources で相対パスを絶対パスに変換して使用
 # 参照 : https://cmake.org/cmake/help/v3.13/policy/CMP0076.html
 if (POLICY CMP0076)

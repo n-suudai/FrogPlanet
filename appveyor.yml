@@ -1,0 +1,36 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+skip_tags: true
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+platform:
+- x64
+- x86
+clone_depth: 1
+clone_folder: C:\FrogPlanet
+init:
+- ps: >-
+    (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
+
+    "%PYTHON_PATH%/python.exe C:/get-pip.py"
+
+    "%PYTHON_PACKAGE_PATH%/pip.exe install nose"
+environment:
+  PYTHON_PATH: C:\Python27
+  PYTHON_PACKAGE_PATH: C:\Python27\Scripts
+install:
+- cmd: >-
+    git config --global core.autocrlf input
+
+    git submodule update --init --quiet
+cache: C:\Python27
+build_script:
+- cmd: "if \"%PLATFORM%\"==\"x86\" (set GENERATE_TYPE=\"Visual Studio 15 2017\")\n    else if \"%PLATFORM%\"==\"x64\" (set GENERATE_TYPE=\"Visual Studio 15 2017 Win64\")\n    else if \"%PLATFORM%\"==\"ARM\" (set GENERATE_TYPE=\"Visual Studio 15 2017 ARM\")\n    \n    cmake -H. -Bb -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G %GENERATE_TYPE%\n    \n    cmake --build b --config %CONFIGURATION%"
+test_script:
+- cmd: >-
+    cd C:\FrogPlanet\b
+
+    ctest
