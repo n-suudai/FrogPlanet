@@ -10,7 +10,7 @@ platform:
 - x64
 - x86
 clone_depth: 1
-clone_folder: C:\FrogPlanet
+clone_folder: C:\projects\FrogPlanet
 init:
 - ps: >-
     (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
@@ -29,15 +29,15 @@ install:
 cache: C:\Python27
 build_script:
 - cmd: >-
-    if "%PLATFORM%"=="x86" (set GENERATE_TYPE="Visual Studio 14 2015")
-    else if "%PLATFORM%"=="x64" (set GENERATE_TYPE="Visual Studio 14 2015 Win64")
-    else if "%PLATFORM%"=="ARM" (set GENERATE_TYPE="Visual Studio 14 2015 ARM")
+    if "%PLATFORM%"=="x86" (set GENERATE_TYPE="Visual Studio 15 2017")
+    else if "%PLATFORM%"=="x64" (set GENERATE_TYPE="Visual Studio 15 2017 Win64")
+    else if "%PLATFORM%"=="ARM" (set GENERATE_TYPE="Visual Studio 15 2017 ARM")
 
     cmake -H. -Bb -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G %GENERATE_TYPE%
 
     cmake --build b --config %CONFIGURATION%
 test_script:
 - cmd: >-
-    cd C:\FrogPlanet\b
+    cd C:\projects\FrogPlanet\b
 
     ctest
