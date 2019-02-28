@@ -81,4 +81,5 @@ target_link_libraries(FrogPlanetMain FrogPlanetLib gtest gtest_main)
 
 
 # CTest
+enable_testing()
 add_subdirectory(Test)
