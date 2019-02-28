@@ -1,7 +1,7 @@
 
 # FrogPlanet
 
-<img src="image/icon.png" width="64">
+![image](./Image/icon.png "icon")
 
 カエルの惑星
 
