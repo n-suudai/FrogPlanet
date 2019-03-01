@@ -1,3 +1,9 @@
 [submodule "External/googletest"]
 	path = External/googletest
 	url = https://github.com/google/googletest
+[submodule "External/EASTL"]
+	path = External/EASTL
+	url = https://github.com/electronicarts/EASTL
+[submodule "External/cotire"]
+	path = External/cotire
+	url = https://github.com/sakra/cotire
