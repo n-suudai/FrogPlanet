@@ -1,85 +1,63 @@
 
+# version 3.8 or newer
 cmake_minimum_required (VERSION 3.8)
 
+
+# 「FrogPlanet」
 project(FrogPlanet C CXX)
 
 
-if(MSVC)
-    message("MSVC")
-    # remove unnecessary warnings about unchecked iterators
-    add_definitions(-D_SCL_SECURE_NO_WARNINGS)
-    foreach (flag_var
-             CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-             CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      if (NOT BUILD_SHARED_LIBS AND NOT gtest_force_shared_crt)
-        string(REPLACE "/MD" "-MT" ${flag_var} "${${flag_var}}")
-      endif()
-      string(REPLACE "/W3" "/W4 /WX" ${flag_var} "${${flag_var}}")
-      message("${${flag_var}}")
-    endforeach()
-else()
-    message("NOT MSVC")
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
-    CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-    if(COMPILER_SUPPORTS_CXX14)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall")
-    elseif(COMPILER_SUPPORTS_CXX11)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
-    else()
-      message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-    endif()
-endif()
+# 「FrogPlanet」 のプロジェクトルートパスを設定
+set(FROG_PLANET_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 
-if(DEFINED ENV{FROG_PLANET_BUILD_CONFIG})
-    if($ENV{FROG_PLANET_BUILD_CONFIG} STREQUAL "COVERAGE")
-        message("Build with coverage")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage")
-    endif()
-endif()
+# 「FrogPlanet」のソースファイルルートパス
+set(FROG_PLANET_SRC_ROOT ${FROG_PLANET_ROOT}/Source/FrogPlanet)
 
 
-# target_sources �ő��΃p�X���΃p�X�ɕϊ����Ďg�p
-# �Q�� : https://cmake.org/cmake/help/v3.13/policy/CMP0076.html
+# 「CompileOption.cmake」を追加
+include(${FROG_PLANET_ROOT}/CMake/CompileOption.cmake)
+FROG_PLANET_CHECK_COMPILE_OPTIONS()
+
+
+# target_sources で相対パスを絶対パスに変換して使用
+# 参照 : https://cmake.org/cmake/help/v3.13/policy/CMP0076.html
 if (POLICY CMP0076)
   cmake_policy(SET CMP0076 NEW)
 endif (POLICY CMP0076)
 
 
-set(AMPHAROS_ROOT ${CMAKE_CURRENT_LIST_DIR})
-set(AMPHAROS_SRC_ROOT ${AMPHAROS_ROOT}/Source/FrogPlanet)
+# 外部ライブラリのインクルードディレクトリ
+set(
+    ExternalIncludeDirs
+    ${FROG_PLANET_ROOT}/Include
+    ${FROG_PLANET_ROOT}/External/EASTL/Include
+)
 
-# External
+# プリコンパイル済みヘッダを使用するため「cotire」を追加
+set(CMAKE_MODULE_PATH ${FROG_PLANET_ROOT}/External/cotire/CMake)
+include(cotire)
+
+# プリコンパイルの対象に設定
+set(
+    COTIRE_PREFIX_HEADER_INCLUDE_PATH
+    ${COTIRE_PREFIX_HEADER_INCLUDE_PATH}
+    ${ExternalIncludeDirs}
+)
+
+
+# 外部ライブラリ (include_directoriesより前にある必要がある？)
 add_subdirectory(
     External
 )
 
 
-# include_directories
-include_directories(
-    ${AMPHAROS_ROOT}/Include
+# 「FrogPlanet」
+add_subdirectory(
+    Source
 )
 
 
-# FrogPlanetLib
-set(
-    FrogPlanetLibSources
-    ${AMPHAROS_SRC_ROOT}/FrogPlanet.cpp
-)
-
-add_library(FrogPlanetLib ${FrogPlanetLibSources})
-
-# FrogPlanetMain
-set(
-    FrogPlanetMainSources
-    ${AMPHAROS_SRC_ROOT}/Main.cpp
-)
-add_executable(FrogPlanetMain ${FrogPlanetMainSources})
-target_link_libraries(FrogPlanetMain FrogPlanetLib gtest gtest_main)
-
-
-
-# CTest
+# テスト
 enable_testing()
 add_subdirectory(Test)
