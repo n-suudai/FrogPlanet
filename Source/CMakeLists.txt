@@ -16,6 +16,7 @@ cotire(FrogPlanetLib)
 
 # 「FrogPlanetMain」
 add_executable(FrogPlanetMain ${FROG_PLANET_SRC_ROOT}/Main.cpp)
+# add_executable(FrogPlanetMain WIN32 ${FROG_PLANET_SRC_ROOT}/Main.cpp) # WinMainを使いたい場合、WIN32属性？を指定する必要がある
 target_link_libraries(FrogPlanetMain FrogPlanetLib)
 cotire(FrogPlanetMain)
 
