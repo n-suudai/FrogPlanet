@@ -21,10 +21,10 @@ include_directories(
 
 
 # テスト追加用関数
-function(frog_planet_test name files)
+function(frog_planet_test name libname files)
     set(files ${files} ${FROG_PLANET_TEST_ROOT}/RunAllTests.cpp)
     add_executable("${name}Test"  ${files})
-    target_link_libraries("${name}Test" ${name} gtest)
+    target_link_libraries("${name}Test" ${libname} gtest)
     add_test(
         "${name}Test"
         "${name}Test"
@@ -32,4 +32,6 @@ function(frog_planet_test name files)
 endfunction()
 
 
-frog_planet_test(FrogPlanetLib ${FROG_PLANET_TEST_ROOT}/FrogPlanetTest.cpp)
+frog_planet_test(FrogPlanet FrogPlanetLib ${FROG_PLANET_TEST_ROOT}/FrogPlanetTest.cpp)
+
+frog_planet_test(IMalloc FrogPlanetCore ${FROG_PLANET_TEST_ROOT}/IMallocTest.cpp)
