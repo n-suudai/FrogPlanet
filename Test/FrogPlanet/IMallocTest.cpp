@@ -1,8 +1,8 @@
 ﻿#include "gtest/gtest.h"
 #include "FrogPlanet/Core/HAL/PlatformMemory.h"
 
-
-namespace {
+namespace
+{
 
 class IMallocTest : public ::testing::Test
 {
@@ -10,10 +10,7 @@ class IMallocTest : public ::testing::Test
 
 TEST(IMallocTest, Create)
 {
-    FrogPlanet::IMalloc* pMalloc = FrogPlanet::PlatformMemory::BaseAllocator();
-    ASSERT_NE(nullptr, pMalloc);
+  FrogPlanet::IMalloc* pMalloc = FrogPlanet::PlatformMemory::BaseAllocator();
+  ASSERT_NE(nullptr, pMalloc);
 }
-
 }
-
-

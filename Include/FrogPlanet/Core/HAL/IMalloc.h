@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-namespace FrogPlanet {
+namespace FrogPlanet
+{
 
 struct IMalloc
 {
 };
-
 }

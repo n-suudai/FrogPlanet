@@ -1,14 +1,12 @@
 ﻿#pragma once
 
-
-namespace FrogPlanet {
+namespace FrogPlanet
+{
 
 struct IMalloc;
 struct GenericPlatformMemory
 {
-    static IMalloc* BaseAllocator();
+  static IMalloc* BaseAllocator();
 };
-
-
 
 } // namespace FrogPlanet

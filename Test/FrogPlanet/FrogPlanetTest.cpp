@@ -1,7 +1,8 @@
 ﻿#include "gtest/gtest.h"
 #include "FrogPlanet/FrogPlanet.h"
 
-namespace {
+namespace
+{
 
 class FrogPlanetTest : public ::testing::Test
 {
@@ -9,12 +10,11 @@ class FrogPlanetTest : public ::testing::Test
 
 TEST(FrogPlanetTest, HelloFrogPlanet)
 {
-    testing::internal::CaptureStdout();
+  testing::internal::CaptureStdout();
 
-    FrogPlanet::Hello();
+  FrogPlanet::Hello();
 
-    ASSERT_STREQ("Hello, FrogPlanet!\n",
-                 testing::internal::GetCapturedStdout().c_str());
+  ASSERT_STREQ("Hello, FrogPlanet!\n",
+               testing::internal::GetCapturedStdout().c_str());
 }
-
 }

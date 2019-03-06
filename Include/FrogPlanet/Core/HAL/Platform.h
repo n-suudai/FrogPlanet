@@ -1,9 +1,7 @@
 ﻿#pragma once
 
-
 // とりあえず Windows
 #define FROG_PLANET_PLATFORM_WINDOWS 1
-
 
 // 他のプラットフォームをすべてゼロで定義
 #if !defined(FROG_PLANET_PLATFORM_WINDOWS)

@@ -31,8 +31,8 @@ PointerBindsToType: false
 SpacesBeforeTrailingComments: 1
 Cpp11BracedListStyle: true
 Standard:        Cpp11
-IndentWidth:     4
-TabWidth:        4
+IndentWidth:     2
+TabWidth:        2
 UseTab:          Never
 BreakBeforeBraces: Allman
 IndentFunctionDeclarationAfterType: false
